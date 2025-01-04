@@ -441,7 +441,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     return true;
                 }
             } else { // Key released
-                layer_off((l_shift_held || r_shift_held) ? 3 : 1); // Turn off the corresponding layer
+                layer_on(0);
             }
             return false;  // Prevent default MO(1) behavior
     case ST_MACRO_0:

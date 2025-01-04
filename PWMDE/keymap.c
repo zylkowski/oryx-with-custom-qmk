@@ -416,6 +416,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     break;
+    case KC_BACKSPACE:
+    if (record->event.pressed && (l_shift_held || r_shift_held ) ) { 
+            unregister_code(KC_LSFT);
+            unregister_code(KC_RSFT);
+            register_code(KC_DELETE);
+            unregister_code(KC_DELETE);
+            return false;
+    }
+    break;
+    case KC_SPACE:
+    if (record->event.pressed && (l_shift_held || r_shift_held ) ) { 
+            unregister_code(KC_LSFT);
+            unregister_code(KC_RSFT);
+            register_code(KC_ESCAPE);
+            unregister_code(KC_ESCAPE);
+            return false;
+    }
+    break;
     case ST_MACRO_0:
     if (record->event.pressed) {
       SEND_STRING(SS_LCTL(SS_TAP(X_A)) SS_DELAY(100) SS_TAP(X_F5));

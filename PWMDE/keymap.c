@@ -377,16 +377,16 @@ bool rgb_matrix_indicators_user(void) {
   return true;
 }
 
+void handle_shift_mo1(bool is_on_shift_mo1) {
+    if (is_on_shift_mo1) {
+        layer_off(3);
+    }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static bool l_shift_held = false;
   static bool r_shift_held = false;
   static bool is_on_shift_mo1 = false;
-
-  void handle_shift_mo1() {
-    if (is_on_shift_mo1) {
-        layer_off(3);
-    }
-  }
 
   switch (keycode) {
     case KC_LEFT_SHIFT:
@@ -401,7 +401,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             l_shift_held = true;
         }
     } else {
-        handle_shift_mo1();
+        handle_shift_mo1(is_on_shift_mo1);
         l_shift_held = false;
     }
 
@@ -418,7 +418,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             r_shift_held = true;
         }
     } else {
-        handle_shift_mo1();
+        handle_shift_mo1(is_on_shift_mo1);
         r_shift_held = false;
     }
 

@@ -380,7 +380,38 @@ bool rgb_matrix_indicators_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  static bool l_shift_held = false;
+  static bool r_shift_held = false;
+
   switch (keycode) {
+    case KC_LEFT_SHIFT:
+    if (record->event.pressed) {
+        if (r_shift_held) { 
+            register_code(LSFT(KC_ENTER));
+            unregister_code(LSFT(KC_ENTER));
+            return false;
+        } else {
+            l_shift_held = true;
+        }
+    } else {
+        l_shift_held = false;
+    }
+
+    break;
+    case KC_RIGHT_SHIFT:
+    if (record->event.pressed) {
+        if (l_shift_held) { 
+            register_code(KC_ENTER);
+            unregister_code(KC_ENTER);
+            return false;
+        } else {
+            r_shift_held = true;
+        }
+    } else {
+        r_shift_held = false;
+    }
+
+    break;
     case ST_MACRO_0:
     if (record->event.pressed) {
       SEND_STRING(SS_LCTL(SS_TAP(X_A)) SS_DELAY(100) SS_TAP(X_F5));

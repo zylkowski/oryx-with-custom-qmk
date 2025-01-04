@@ -377,7 +377,7 @@ bool rgb_matrix_indicators_user(void) {
   return true;
 }
 
-void handle_shift_mo1(bool &is_on_shift_mo1) {
+void handle_shift_mo1(bool *is_on_shift_mo1) {
     if (is_on_shift_mo1) {
         layer_off(3);
         *is_on_shift_mo1 = false;

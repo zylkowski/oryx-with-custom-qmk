@@ -377,9 +377,10 @@ bool rgb_matrix_indicators_user(void) {
   return true;
 }
 
-void handle_shift_mo1(bool is_on_shift_mo1) {
+void handle_shift_mo1(bool &is_on_shift_mo1) {
     if (is_on_shift_mo1) {
         layer_off(3);
+        *is_on_shift_mo1 = false;
     }
 }
 
@@ -401,7 +402,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             l_shift_held = true;
         }
     } else {
-        handle_shift_mo1(is_on_shift_mo1);
+        handle_shift_mo1(&is_on_shift_mo1);
         l_shift_held = false;
     }
 
@@ -418,7 +419,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             r_shift_held = true;
         }
     } else {
-        handle_shift_mo1(is_on_shift_mo1);
+        handle_shift_mo1(&is_on_shift_mo1);
         r_shift_held = false;
     }
 
@@ -446,6 +447,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (record->event.pressed) {
             if (is_shift_pressed) {
                 layer_on(3);  // Activate layer 3 instead of layer 1
+                is_on_shift_mo1 = true;
             } else {
                 layer_on(1);  // Activate layer 1 normally
             }

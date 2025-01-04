@@ -387,8 +387,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case KC_LEFT_SHIFT:
     if (record->event.pressed) {
         if (r_shift_held) { 
-            register_code(LSFT(KC_ENTER));
-            unregister_code(LSFT(KC_ENTER));
+            register_code(KC_LSFT);
+            register_code(KC_ENTER);
+            unregister_code(KC_ENTER);
+            unregister_code(KC_LSFT);
             return false;
         } else {
             l_shift_held = true;

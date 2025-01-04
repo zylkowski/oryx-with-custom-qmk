@@ -443,7 +443,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     return true;
                 }
             } else { // Key released
-                // layer_on(0);
+                layer_on(0);
                 return true;
             }
             // return false;  // Prevent default MO(1) behavior

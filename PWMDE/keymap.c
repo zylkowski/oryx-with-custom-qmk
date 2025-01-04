@@ -432,22 +432,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
     }
     break;
-    // case MO(1):  // Check if MO(1) is pressed
-    //         if (record->event.pressed) {
-    //             if (l_shift_held || r_shift_held) {
-    //                 unregister_code(KC_LSFT);
-    //                 unregister_code(KC_RSFT);
-    //                 layer_on(3);  // Activate layer 3 instead of layer 1
-    //             } else {
-    //                 // layer_on(1);  // Activate layer 1 normally
-    //                 return true;
-    //             }
-    //         } else { // Key released
-    //             layer_on(0);
-    //             return true;
-    //         }
-    //         // return false;  // Prevent default MO(1) behavior
-    // break;
+    case MO(1): 
+        bool is_shift_pressed = l_shift_held || r_shift_held;
+        if (record->event.pressed) {
+            if (is_shift_pressed) {
+                layer_on(3);  // Activate layer 3 instead of layer 1
+            } else {
+                layer_on(1);  // Activate layer 1 normally
+            }
+        } else { // Key released
+            layer_off(is_shift_pressed ? 3 : 1); // Turn off the corresponding layer
+        }
+        return false;  // Prevent default MO(1) behaviork if MO(1) is pressed
+    break;
     case ST_MACRO_0:
     if (record->event.pressed) {
       SEND_STRING(SS_LCTL(SS_TAP(X_A)) SS_DELAY(100) SS_TAP(X_F5));

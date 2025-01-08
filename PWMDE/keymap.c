@@ -451,6 +451,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         bool is_shift_pressed = l_shift_held || r_shift_held;
         if (record->event.pressed) {
             if (is_shift_pressed) {
+                unregister_code(KC_LSFT);
+                unregister_code(KC_RSFT);
                 layer_on(3);  // Activate layer 3 instead of layer 1
                 is_on_shift_mo1 = true;
             } else {

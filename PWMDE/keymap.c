@@ -44,13 +44,13 @@ enum tap_dance_codes {
   DANCE_17,
 };
 
-#define DUAL_FUNC_0 LT(5, KC_F11)
-#define DUAL_FUNC_1 LT(3, KC_F1)
+#define DUAL_FUNC_0 LT(10, KC_L)
+#define DUAL_FUNC_1 LT(6, KC_F12)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_voyager(
     DUAL_FUNC_0,    TD(DANCE_0),    TD(DANCE_1),    TD(DANCE_2),    TD(DANCE_3),    TD(DANCE_4),                                    KC_F1,          KC_F2,          KC_F3,          KC_F10,         KC_F11,         KC_F12,         
-    KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                                           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_TRANSPARENT, 
+    KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                                           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_HYPR,        
     KC_BSPC,        KC_A,           KC_S,           KC_D,           KC_F,           KC_G,                                           KC_H,           KC_J,           KC_K,           KC_L,           KC_SCLN,        KC_QUOTE,       
     KC_LEFT_SHIFT,  MT(MOD_LALT, KC_Z),KC_X,           KC_C,           KC_V,           KC_B,                                           KC_N,           KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,       KC_RIGHT_SHIFT, 
                                                     KC_SPACE,       KC_LEFT_CTRL,                                   MO(1),          KC_RIGHT_ALT
@@ -189,34 +189,6 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM -40;
         case KC_SLASH:
             return TAPPING_TERM -50;
-        case KC_TRANSPARENT:
-            return TAPPING_TERM + 100;
-        case KC_0:
-            return TAPPING_TERM -30;
-        case KC_7:
-            return TAPPING_TERM -30;
-        case KC_8:
-            return TAPPING_TERM -30;
-        case KC_9:
-            return TAPPING_TERM -30;
-        case KC_LBRC:
-            return TAPPING_TERM -30;
-        case KC_RBRC:
-            return TAPPING_TERM -30;
-        case KC_4:
-            return TAPPING_TERM -30;
-        case KC_5:
-            return TAPPING_TERM -30;
-        case KC_6:
-            return TAPPING_TERM -30;
-        case KC_1:
-            return TAPPING_TERM -30;
-        case KC_2:
-            return TAPPING_TERM -30;
-        case KC_3:
-            return TAPPING_TERM -40;
-        case KC_UNDS:
-            return TAPPING_TERM -30;
         case TD(DANCE_5):
             return TAPPING_TERM -20;
         case LSFT(KC_QUOTE):
@@ -282,7 +254,7 @@ void keyboard_post_init_user(void) {
 }
 
 const uint8_t PROGMEM ledmap[][RGB_MATRIX_LED_COUNT][3] = {
-    [0] = { {0,255,255}, {33,118,221}, {78,255,255}, {22,255,255}, {22,255,255}, {22,255,255}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {0,255,255}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {175,255,255}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {22,255,255}, {22,255,255}, {22,255,255}, {22,255,255}, {22,255,255}, {22,255,255}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {117,148,253}, {33,118,221}, {33,118,221}, {33,118,221}, {33,142,255}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {175,255,255}, {121,210,251}, {61,255,255} },
+    [0] = { {0,255,255}, {33,118,221}, {78,255,255}, {22,255,255}, {22,255,255}, {22,255,255}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {0,255,255}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {175,255,255}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {22,255,255}, {22,255,255}, {22,255,255}, {22,255,255}, {22,255,255}, {22,255,255}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {116,146,253}, {33,118,221}, {33,118,221}, {33,118,221}, {33,142,255}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {33,118,221}, {175,255,255}, {121,210,251}, {61,255,255} },
 
     [1] = { {121,210,251}, {121,210,251}, {78,255,255}, {0,0,0}, {0,0,0}, {22,255,255}, {121,210,251}, {121,210,251}, {121,210,251}, {121,210,251}, {47,241,246}, {47,239,177}, {0,255,255}, {121,210,251}, {121,210,251}, {121,210,251}, {47,241,246}, {47,239,177}, {175,255,255}, {121,210,251}, {121,210,251}, {121,210,251}, {47,241,246}, {47,239,177}, {33,142,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {22,255,255}, {47,239,177}, {47,239,177}, {47,239,177}, {47,239,177}, {47,239,177}, {193,255,166}, {208,148,255}, {208,148,255}, {208,148,255}, {208,148,255}, {47,239,177}, {22,255,255}, {208,237,255}, {208,148,255}, {208,148,255}, {208,237,255}, {61,255,255}, {175,255,255}, {0,0,0}, {61,255,255} },
 
@@ -393,6 +365,9 @@ bool rgb_matrix_indicators_user(void) {
 extern bool set_scrolling;
 extern bool navigator_turbo;
 extern bool navigator_aim;
+void pointing_device_init_user(void) {
+    set_auto_mouse_enable(true);
+}
 
 
 typedef struct {

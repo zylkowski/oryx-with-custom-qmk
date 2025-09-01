@@ -1078,8 +1078,87 @@ tap_dance_action_t tap_dance_actions[] = {
         [DANCE_17] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_17, dance_17_finished, dance_17_reset),
 };
 
+void handle_shift_mo1(bool *is_on_shift_mo1) {
+    if (is_on_shift_mo1) {
+        layer_off(3);
+        *is_on_shift_mo1 = false;
+    }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  static bool l_shift_held = false;
+  static bool r_shift_held = false;
+  static bool is_on_shift_mo1 = false;
+
   switch (keycode) {
+    case KC_LEFT_SHIFT:
+    if (record->event.pressed) {
+        if (r_shift_held) { 
+            register_code(KC_LSFT);
+            register_code(KC_ENTER);
+            unregister_code(KC_ENTER);
+            unregister_code(KC_LSFT);
+            return false;
+        } else {
+            l_shift_held = true;
+        }
+    } else {
+        handle_shift_mo1(&is_on_shift_mo1);
+        l_shift_held = false;
+    }
+
+    break;
+    case KC_RIGHT_SHIFT:
+    if (record->event.pressed) {
+        if (l_shift_held) { 
+            unregister_code(KC_LSFT);
+            unregister_code(KC_RSFT);
+            register_code(KC_ENTER);
+            unregister_code(KC_ENTER);
+            return false;
+        } else {
+            r_shift_held = true;
+        }
+    } else {
+        handle_shift_mo1(&is_on_shift_mo1);
+        r_shift_held = false;
+    }
+
+    break;
+    case KC_BACKSPACE:
+    if (record->event.pressed && (l_shift_held || r_shift_held ) ) { 
+            unregister_code(KC_LSFT);
+            unregister_code(KC_RSFT);
+            register_code(KC_DELETE);
+            unregister_code(KC_DELETE);
+            return false;
+    }
+    break;
+    case KC_SPACE:
+    if (record->event.pressed && (l_shift_held || r_shift_held ) ) { 
+            unregister_code(KC_LSFT);
+            unregister_code(KC_RSFT);
+            register_code(KC_ESCAPE);
+            unregister_code(KC_ESCAPE);
+            return false;
+    }
+    break;
+    case MO(1): 
+        bool is_shift_pressed = l_shift_held || r_shift_held;
+        if (record->event.pressed) {
+            if (is_shift_pressed) {
+                unregister_code(KC_LSFT);
+                unregister_code(KC_RSFT);
+                layer_on(3);  // Activate layer 3 instead of layer 1
+                is_on_shift_mo1 = true;
+            } else {
+                layer_on(1);  // Activate layer 1 normally
+            }
+        } else { // Key released
+            layer_off(is_shift_pressed ? 3 : 1); // Turn off the corresponding layer
+        }
+        return false;  // Prevent default MO(1) behaviork if MO(1) is pressed
+    break;
     case ST_MACRO_0:
     if (record->event.pressed) {
       SEND_STRING(SS_LSFT(SS_TAP(X_LBRC))SS_DELAY(100)  SS_LSFT(SS_TAP(X_SCLN))SS_DELAY(100)  SS_LSFT(SS_TAP(X_SLASH))SS_DELAY(100)  SS_LSFT(SS_TAP(X_RBRC)));

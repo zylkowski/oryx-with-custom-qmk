@@ -19,6 +19,10 @@ enum custom_keycodes {
   ST_MACRO_8,
   ST_MACRO_9,
   ST_MACRO_10,
+  NAVIGATOR_INC_CPI,
+  NAVIGATOR_DEC_CPI,
+  NAVIGATOR_TURBO,
+  NAVIGATOR_AIM
 };
 
 
@@ -44,8 +48,8 @@ enum tap_dance_codes {
   DANCE_17,
 };
 
-#define DUAL_FUNC_0 LT(10, KC_L)
-#define DUAL_FUNC_1 LT(6, KC_F12)
+#define DUAL_FUNC_0 LT(12, KC_F16)
+#define DUAL_FUNC_1 LT(7, KC_F14)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_voyager(
@@ -101,7 +105,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESCAPE,      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
     KC_NO,          KC_MS_WH_UP,    KC_MS_UP,       KC_MS_WH_DOWN,  KC_NO,          KC_NO,                                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_ACCEL2,   KC_MS_ACCEL0,   KC_TRANSPARENT, 
     KC_NO,          KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_NO,          KC_NO,                                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_MS_BTN2,     KC_NO,          KC_NO,          KC_NO,          DUAL_FUNC_1,    KC_NO,                                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_MS_BTN2,     KC_NO,          NAVIGATOR_DEC_CPI,NAVIGATOR_INC_CPI,DUAL_FUNC_1,    KC_NO,                                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
                                                     KC_MS_BTN1,     LALT(KC_M),                                     KC_TRANSPARENT, KC_TRANSPARENT
   ),
   [8] = LAYOUT_voyager(
@@ -367,6 +371,13 @@ extern bool navigator_turbo;
 extern bool navigator_aim;
 void pointing_device_init_user(void) {
     set_auto_mouse_enable(true);
+}
+bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
+  switch (keycode) {
+    case NAVIGATOR_INC_CPI ... NAVIGATOR_AIM:
+      return true;
+  }
+  return is_mouse_record_user(keycode, record);
 }
 
 
@@ -1141,6 +1152,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }  
       }  
       return false;
+  case NAVIGATOR_TURBO:
+    if (record->event.pressed) {
+      navigator_turbo = true;
+    } else {
+      navigator_turbo = false;
+    }
+    return false;
+  case NAVIGATOR_AIM:
+    if (record->event.pressed) {
+      navigator_aim = true;
+    } else {
+      navigator_aim = false;
+    }
+    return false;
+  case NAVIGATOR_INC_CPI:
+    if (record->event.pressed) {
+        pointing_device_set_cpi(1);
+    }
+    return false;
+  case NAVIGATOR_DEC_CPI:
+    if (record->event.pressed) {
+        pointing_device_set_cpi(0);
+    }
+    return false;
     case RGB_SLD:
       if (record->event.pressed) {
         rgblight_mode(1);

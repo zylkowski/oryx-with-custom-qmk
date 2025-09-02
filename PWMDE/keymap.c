@@ -19,6 +19,7 @@ enum custom_keycodes {
   ST_MACRO_8,
   ST_MACRO_9,
   ST_MACRO_10,
+  DRAG_SCROLL,
   NAVIGATOR_INC_CPI,
   NAVIGATOR_DEC_CPI,
   NAVIGATOR_TURBO,
@@ -48,8 +49,8 @@ enum tap_dance_codes {
   DANCE_17,
 };
 
-#define DUAL_FUNC_0 LT(12, KC_F16)
-#define DUAL_FUNC_1 LT(7, KC_F14)
+#define DUAL_FUNC_0 LT(12, KC_F7)
+#define DUAL_FUNC_1 LT(11, KC_F24)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_voyager(
@@ -103,10 +104,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [7] = LAYOUT_voyager(
     KC_ESCAPE,      KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_NO,          KC_MS_WH_UP,    KC_MS_UP,       KC_MS_WH_DOWN,  KC_NO,          KC_NO,                                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_ACCEL2,   KC_MS_ACCEL0,   KC_TRANSPARENT, 
-    KC_NO,          KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_NO,          KC_NO,                                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_NO,          KC_MS_WH_UP,    KC_NO,          KC_MS_WH_DOWN,  KC_NO,          KC_NO,                                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_ACCEL2,   KC_MS_ACCEL0,   KC_TRANSPARENT, 
+    KC_NO,          KC_NO,          KC_MS_BTN3,     DRAG_SCROLL,    KC_NO,          KC_NO,                                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
     KC_MS_BTN2,     KC_NO,          NAVIGATOR_DEC_CPI,NAVIGATOR_INC_CPI,DUAL_FUNC_1,    KC_NO,                                          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
-                                                    KC_MS_BTN1,     LALT(KC_M),                                     KC_TRANSPARENT, KC_TRANSPARENT
+                                                    KC_MS_BTN1,     NAVIGATOR_AIM,                                  KC_TRANSPARENT, KC_TRANSPARENT
   ),
   [8] = LAYOUT_voyager(
     KC_NO,          KC_F10,         KC_F11,         KC_F12,         KC_NO,          KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          
@@ -272,7 +273,7 @@ const uint8_t PROGMEM ledmap[][RGB_MATRIX_LED_COUNT][3] = {
 
     [6] = { {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255}, {3,168,255} },
 
-    [7] = { {0,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {193,255,166}, {193,255,166}, {193,255,166}, {0,0,0}, {0,0,0}, {0,0,0}, {193,255,166}, {193,255,166}, {193,255,166}, {0,0,0}, {0,0,0}, {193,255,166}, {0,0,0}, {0,0,0}, {0,0,0}, {193,255,166}, {0,0,0}, {193,255,166}, {193,255,166}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {193,255,166}, {193,255,166}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
+    [7] = { {0,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {193,255,166}, {0,0,0}, {193,255,166}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {193,255,166}, {0,0,0}, {0,0,0}, {0,0,0}, {193,255,166}, {0,0,0}, {193,255,166}, {193,255,166}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {193,255,166}, {193,255,166}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
 
     [8] = { {0,0,0}, {22,255,255}, {22,255,255}, {22,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {22,255,255}, {22,255,255}, {22,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {22,255,255}, {22,255,255}, {22,255,255}, {0,0,0}, {0,0,0}, {175,255,255}, {22,255,255}, {22,255,255}, {22,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
 
@@ -375,6 +376,7 @@ void pointing_device_init_user(void) {
 bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
   switch (keycode) {
     case NAVIGATOR_INC_CPI ... NAVIGATOR_AIM:
+    case DRAG_SCROLL:
       return true;
   }
   return is_mouse_record_user(keycode, record);
@@ -1151,6 +1153,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           unregister_code16(LALT(KC_C));
         }  
       }  
+      return false;
+    case DRAG_SCROLL:
+      if (record->event.pressed) {
+        set_scrolling = true;
+      } else {
+        set_scrolling = false;
+      }
       return false;
   case NAVIGATOR_TURBO:
     if (record->event.pressed) {

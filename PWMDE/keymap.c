@@ -49,8 +49,8 @@ enum tap_dance_codes {
   DANCE_17,
 };
 
-#define DUAL_FUNC_0 LT(9, KC_F4)
-#define DUAL_FUNC_1 LT(4, KC_F5)
+#define DUAL_FUNC_0 LT(6, KC_E)
+#define DUAL_FUNC_1 LT(3, KC_F22)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_voyager(
@@ -377,6 +377,13 @@ bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
   switch (keycode) {
     case NAVIGATOR_INC_CPI ... NAVIGATOR_AIM:
     case DRAG_SCROLL:
+    case KC_MS_WH_UP:
+    case KC_MS_WH_DOWN:
+    case KC_MS_BTN3:
+    case KC_MS_BTN2:
+    case KC_MS_BTN1:
+    case KC_MS_ACCEL2:
+    case KC_MS_ACCEL0:
       return true;
   }
   return is_mouse_record_user(keycode, record);
@@ -1068,6 +1075,22 @@ tap_dance_action_t tap_dance_actions[] = {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+  case QK_MODS ... QK_MODS_MAX: 
+    // Mouse keys with modifiers work inconsistently across operating systems, this makes sure that modifiers are always
+    // applied to the mouse key that was pressed.
+    if (IS_MOUSE_KEYCODE(QK_MODS_GET_BASIC_KEYCODE(keycode))) {
+    if (record->event.pressed) {
+        add_mods(QK_MODS_GET_MODS(keycode));
+        send_keyboard_report();
+        wait_ms(2);
+        register_code(QK_MODS_GET_BASIC_KEYCODE(keycode));
+        return false;
+      } else {
+        wait_ms(2);
+        del_mods(QK_MODS_GET_MODS(keycode));
+      }
+    }
+    break;
     case ST_MACRO_0:
     if (record->event.pressed) {
       SEND_STRING(SS_LSFT(SS_TAP(X_LBRC))SS_DELAY(100)  SS_LSFT(SS_TAP(X_SCLN))SS_DELAY(100)  SS_LSFT(SS_TAP(X_SLASH))SS_DELAY(100)  SS_LSFT(SS_TAP(X_RBRC)));
